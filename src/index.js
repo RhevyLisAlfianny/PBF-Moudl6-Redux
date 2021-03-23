@@ -1,21 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-import { reducer as formReducer } from 'redux-form';
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import MainReducer from './reducers/MainReducer';
+import CreateTodo from './containers/CreateTodo';
+import Table from './containers/Table';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import App from './App';
-
 import reportWebVitals from './reportWebVitals';
 
-const rootReducer = combineReducers({
-  form: formReducer,
-});
-  const store = createStore(rootReducer);
-  ReactDOM.render(
+
+const store = compose(window.devToolsExtension ? window.devToolsExtension() : 
+  f => f)(createStore)(MainReducer)
+ReactDOM.render(
   <Provider store={store}>
-  <App />
+    <CreateTodo />
+    <Table />
   </Provider>,
   document.getElementById('root')
-  );
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
